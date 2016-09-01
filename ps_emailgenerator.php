@@ -20,7 +20,7 @@ function t($str)
 		return $str;
 }
 
-class EmailGenerator extends Module
+class Ps_EmailGenerator extends Module
 {
 	protected static $_rtl_langs = array('fa', 'ar', 'he', 'ur', 'ug', 'ku');
 	protected static $_lang_default_font = array(
@@ -30,14 +30,14 @@ class EmailGenerator extends Module
 
 	public function __construct()
 	{
-		$this->name = 'emailgenerator';
+		$this->name = 'ps_emailgenerator';
 		$this->version = '0.5';
 		$this->author = 'fmdj';
 		$this->bootstrap = true;
 
 		$this->displayName = 'Email Generator';
 		$this->description = 'Generate HTML and TXT emails for PrestaShop from php templates.';
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6.99.99');
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
 		parent::__construct();
 	}
@@ -289,7 +289,7 @@ class EmailGenerator extends Module
 		else
 			$EMAIL_TRANSLATIONS_DICTIONARY = array();
 
-		$emailPublicWebRoot = Tools::getShopDomain(true).__PS_BASE_URI__.'modules/emailgenerator/templates/';
+		$emailPublicWebRoot = Tools::getShopDomain(true).__PS_BASE_URI__.'modules/ps_emailgenerator/templates/';
 		$emailLangIsRTL = in_array($languageCode,self::$_rtl_langs); // see header.php
 		$emailDefaultFont = '';
 		if (array_key_exists($languageCode,self::$_lang_default_font))
@@ -519,7 +519,7 @@ class EmailGenerator extends Module
 			'subjects' => $subjects,
 			'potential_subjects' => $potential_subjects,
 			'files' => array(
-				0 => 'modules/emailgenerator/templates_translations/'.$language.'/lang_content.php',
+				0 => 'modules/ps_emailgenerator/templates_translations/'.$language.'/lang_content.php',
 				1 => 'mails/'.$language.'/lang.php'
 			)
 		);
@@ -547,7 +547,7 @@ class EmailGenerator extends Module
 		$absPath = _PS_ROOT_DIR_.'/'.$path;
 		$path = substr($absPath, strlen(_PS_ROOT_DIR_)+1);
 		return
-			preg_match('#^(?:mails/[a-z]{2}/lang\.php|modules/emailgenerator/templates_translations/[a-z]{2}/lang_content\.php)$#', $path)
+			preg_match('#^(?:mails/[a-z]{2}/lang\.php|modules/ps_emailgenerator/templates_translations/[a-z]{2}/lang_content\.php)$#', $path)
 			? $absPath
 			: false;
 	}

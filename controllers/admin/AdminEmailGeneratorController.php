@@ -29,15 +29,15 @@ class AdminEmailGeneratorController extends ModuleAdminController
 
 	public function setMedia()
 	{
-		$this->addCSS(_PS_MODULE_DIR_.'emailgenerator/css/emailgenerator.css');
+		$this->addCSS(_PS_MODULE_DIR_.'ps_emailgenerator/css/emailgenerator.css');
 		parent::setMedia();
 	}
 
 	public function processIndex()
 	{
-		$this->addJS(_PS_MODULE_DIR_.'emailgenerator/js/tree.js');
+		$this->addJS(_PS_MODULE_DIR_.'ps_emailgenerator/js/tree.js');
 
-		$templates = EmailGenerator::listEmailTemplates();
+		$templates = Ps_EmailGenerator::listEmailTemplates();
 		$languages = array();
 
 		foreach (scandir(_PS_ROOT_DIR_.'/mails') as $lc)
@@ -55,13 +55,13 @@ class AdminEmailGeneratorController extends ModuleAdminController
 			if ($lang['iso_code'] === 'an')
 				continue;
 
-			foreach ($templates['core'] as $tpl) 
+			foreach ($templates['core'] as $tpl)
 				if(!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path'])))
 					$toBuild[] = array(
 						'languageCode' => $lang['iso_code'],
 						'template' => $tpl['path']
 					);
-			foreach ($templates['modules'] as $mod) 
+			foreach ($templates['modules'] as $mod)
 				foreach ($mod as $tpl)
 					$toBuild[] = array(
 						'languageCode' => $lang['iso_code'],
@@ -159,8 +159,8 @@ class AdminEmailGeneratorController extends ModuleAdminController
 		catch (Exception $e)
 		{
 			$res['error_message'] = $e->getMessage();
-		}	
+		}
 
-		die(Tools::jsonEncode($res)); 
+		die(Tools::jsonEncode($res));
 	}
 }
