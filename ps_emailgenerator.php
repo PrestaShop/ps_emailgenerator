@@ -1,7 +1,12 @@
 <?php
 
-if (!defined('_PS_VERSION_'))
+if (!defined('_PS_VERSION_')) {
 	exit;
+}
+
+if (version_compare(_PS_VERSION_, '1.7.0.0', '<')) {
+	return;
+}
 
 require_once dirname(__FILE__).'/vendor/cssin/cssin.php';
 require_once dirname(__FILE__).'/vendor/cssin/vendor/simple_html_dom/simple_html_dom.php';
