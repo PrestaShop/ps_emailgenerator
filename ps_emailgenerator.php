@@ -174,10 +174,10 @@ class Ps_EmailGenerator extends Module
 				$dir = dirname($absPath);
 				if (!is_dir($dir))
 					if (!@mkdir($dir, 0777, true))
-						return $this->l('Could not create directory: ').dirname($relFilePath);
+						return 'Could not create directory: '.dirname($relFilePath);
 				$fh = fopen($absPath, 'w');
 				if (!$fh)
-					return $this->l('Could not open for writing: ').$relFilePath;
+					return 'Could not open for writing: '.$relFilePath;
 				if (flock($fh, LOCK_EX))
 				{
 					fwrite($fh, $phpArray);
@@ -187,11 +187,11 @@ class Ps_EmailGenerator extends Module
 				}
 				else
 				{
-					return $this->l('Could not acquire lock on translation file.');
+					return 'Could not acquire lock on translation file.';
 				}
 			}
 			else
-				return $this->l('Invalid translation file path: ').$relFilePath;
+				return 'Invalid translation file path: '.$relFilePath;
 		}
 		return true;
 	}
@@ -314,7 +314,7 @@ class Ps_EmailGenerator extends Module
 
 		$output_basename = $this->getBaseOutputName($template, $languageCode);
 		if ($output_basename === false)
-			throw new Exception($this->l('Template name is invalid.'));
+			throw new Exception('Template name is invalid.');
 
 		$html_for_html = str_get_html($raw_html, true, true, DEFAULT_TARGET_CHARSET, false, DEFAULT_BR_TEXT, DEFAULT_SPAN_TEXT);
 		foreach($html_for_html->find("[data-text-only='1']") as $kill)
@@ -342,10 +342,10 @@ class Ps_EmailGenerator extends Module
 			if (!is_dir($dir))
 			{
 				if(!@mkdir($dir, 0777, true))
-					throw new Exception($this->l('Could not create directory to write email to.'));
+					throw new Exception('Could not create directory to write email to.');
 			}
 			if(!@file_put_contents($path, $data))
-				throw new Exception($this->l('Could not write email file: '.$path));
+				throw new Exception('Could not write email file: '.$path);
 		}
 		return array('html' => $html, 'text' => $text);
 	}

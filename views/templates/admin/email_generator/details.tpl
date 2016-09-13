@@ -1,14 +1,14 @@
 {function showTranslations from=null}
 	{foreach from=$from item=data key=message}
-		<input 
-			type="hidden" 
-			name="translations[{$data.id}][message]" 
+		<input
+			type="hidden"
+			name="translations[{$data.id}][message]"
 			value="{$message|escape}"
 		>
 
-		<input 
-			type="hidden" 
-			name="translations[{$data.id}][file]" 
+		<input
+			type="hidden"
+			name="translations[{$data.id}][file]"
 			value="{$data.file}"
 		>
 
@@ -32,10 +32,10 @@
 <div class="panel">
 	<h3>{$template_name}</h3>
 	<div class="alert alert-info">
-		<p>{l s='You are viewing the "%s" email template.' mod='emailgenerator' sprintf=$template_name}</p>
-		<p>{l s='Here you can translate this email, preview it and generate the final HTML and TXT versions for this email.' mod='emailgenerator' sprintf=$template_name}</p>
+		<p>You are viewing the "{$template_name}" email template.</p>
+		<p>Here you can translate this email, preview it and generate the final HTML and TXT versions for this email.</p>
 	</div>
-	
+
 	<form method="GET" class="form-horizontal">
 		<input type="hidden" name="token" value="{$token}">
 		<input type="hidden" name="controller" value="AdminEmailGenerator">
@@ -43,7 +43,7 @@
 		<input type="hidden" name="template" value="{$template}">
 
 		<div class="form-group">
-			<label for="languageCode" class="control-label col-lg-3">{l s='Language' mod='emailgenerator'}</label>
+			<label for="languageCode" class="control-label col-lg-3">Language</label>
 			<div class="col-lg-3">
 				<div class="row">
 					<div class="col-lg-9">
@@ -57,12 +57,12 @@
 						<button type="submit" class="btn btn-default">Switch</button>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</form>
-	
-	<a target="_blank" href="{$link->getAdminLink('AdminEmailGenerator')}&amp;languageCode={$languageCode|urlencode}&amp;template={$template|urlencode}&amp;action=preview&amp;cheat_logo=1" class="btn btn-default">{l s='Preview HTML Version & Generate Email' mod='emailgenerator'}</a>
+
+	<a target="_blank" href="{$link->getAdminLink('AdminEmailGenerator')}&amp;languageCode={$languageCode|urlencode}&amp;template={$template|urlencode}&amp;action=preview&amp;cheat_logo=1" class="btn btn-default">Preview HTML Version & Generate Email</a>
 
 	<form action="" method="POST">
 		{foreach from=$strings.files item=path key=id}
@@ -70,19 +70,19 @@
 		{/foreach}
 		<input type="hidden" name="subAction" value="postTranslations">
 		{if isset($strings.subjects) and $strings.subjects|count > 0}
-			<h4>{l s='Subject strings for this email'}</h4>
+			<h4>Subject strings for this email</h4>
 			{showTranslations from=$strings.subjects}
 		{/if}
 		{if isset($strings.potential_subjects) and $strings.potential_subjects|count > 0}
-			<h4>{l s='Potential subject strings for this email'}</h4>
+			<h4>Potential subject strings for this email</h4>
 			{showTranslations from=$strings.potential_subjects}
 		{/if}
-		<h4>{l s='Strings in the email body' mod='emailgenerator'}</h4>
+		<h4>Strings in the email body'</h4>
 		{showTranslations from=$strings.body}
 		<div class='alert alert-warning'>
-			<p>{l s='<strong>Warning</strong>: On some systems, due to internal caching mechanisms, you may not see your translations saved after submitting them, but they should be. Just refresh the page to make sure if that happens!' mod='emailgenerator'}</p>
+			<p><strong>Warning</strong>: On some systems, due to internal caching mechanisms, you may not see your translations saved after submitting them, but they should be. Just refresh the page to make sure if that happens!</p>
 		</div>
-		<button class='btn btn-success'>{l s='Save Translations And Rebuild Email' mod='emailgenerator'}</button>
+		<button class='btn btn-success'>Save Translations And Rebuild Email</button>
 	</form>
 </div>
 

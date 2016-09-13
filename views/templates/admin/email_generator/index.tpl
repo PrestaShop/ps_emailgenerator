@@ -5,8 +5,8 @@
 <div class="panel">
 	<h3>Email Templates</h3>
 	<div class="alert alert-info">
-		<p>{l s='Here are the email templates currently installed on your shop.' mod='emailgenerator'}</p>
-		<p>{l s='Unroll the tree and click on any e-mail to access its translations and more.' mod='emailgenerator'}</p>
+		<p>Here are the email templates currently installed on your shop.</p>
+		<p>Unroll the tree and click on any e-mail to access its translations and more.</p>
 	</div>
 	<div class="tree">
 		<div class="node">
@@ -35,7 +35,7 @@
 	<div class='form-horizontal'>
 		<div class="form-group">
 			<div class="col-lg-3">
-				<button id='generate-all-emails' onclick='javascript:generateEmails();' class="btn btn-default" type="button">{l s='Generate All Emails'}</button>
+				<button id='generate-all-emails' onclick='javascript:generateEmails();' class="btn btn-default" type="button">Generate All Emails</button>
 			</div>
 			<div class="col-lg-9">
 				<div id="feedback"></div>
