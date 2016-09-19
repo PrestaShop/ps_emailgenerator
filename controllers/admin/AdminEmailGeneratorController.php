@@ -50,7 +50,7 @@ class AdminEmailGeneratorController extends ModuleAdminController
 
 		$toBuild = array();
 
-		foreach ($languages as $lang)
+		foreach (Language::getLanguages() as $lang)
 		{
 			if ($lang['iso_code'] === 'an')
 				continue;
@@ -58,13 +58,13 @@ class AdminEmailGeneratorController extends ModuleAdminController
 			foreach ($templates['core'] as $tpl)
 				if(!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path'])))
 					$toBuild[] = array(
-						'languageCode' => $lang['iso_code'],
+						'languageCode' => $lang['locale'],
 						'template' => $tpl['path']
 					);
 			foreach ($templates['modules'] as $mod)
 				foreach ($mod as $tpl)
 					$toBuild[] = array(
-						'languageCode' => $lang['iso_code'],
+						'languageCode' => $lang['locale'],
 						'template' => $tpl['path']
 					);
 		}

@@ -7,17 +7,14 @@ require_once dirname(__FILE__).'/vendor/cssin/cssin.php';
 require_once dirname(__FILE__).'/vendor/cssin/vendor/simple_html_dom/simple_html_dom.php';
 require_once dirname(__FILE__).'/vendor/html_to_text/Html2Text.php';
 
-global $EMAIL_TRANSLATIONS_DICTIONARY;
-$EMAIL_TRANSLATIONS_DICTIONARY = array();
+global $LOCALE;
+$LOCALE = 'en-US';
 // Function to put the translations in the templates
 function t($str)
 {
-	global $EMAIL_TRANSLATIONS_DICTIONARY;
+    global $LOCALE;
 
-	if (isset($EMAIL_TRANSLATIONS_DICTIONARY[$str]) && trim($EMAIL_TRANSLATIONS_DICTIONARY[$str]) !== '')
-		return $EMAIL_TRANSLATIONS_DICTIONARY[$str];
-	else
-		return $str;
+    return Context::getContext()->getTranslator()->trans($str, array(), 'Emails', $LOCALE);
 }
 
 class Ps_EmailGenerator extends Module
@@ -217,7 +214,7 @@ class Ps_EmailGenerator extends Module
     		throw Exception('Dont\'t know how to get CSS: '.$url);
     }
 
-	public function generateEmail($template, $languageCode)
+	public function generateEmail($template, $locale)
 	{
 		if (!preg_match('#^templates/(core/[^/]+|modules/[^\./]+/[^/]+)$#', $template))
 			throw new Exception('NAH, wrong template name.');
@@ -232,18 +229,14 @@ class Ps_EmailGenerator extends Module
 			$cssin->setCSSGetter(array($this, 'getCSS'));
 		}
 
-		global $EMAIL_TRANSLATIONS_DICTIONARY;
-		$dictionary_path = dirname(__FILE__).'/templates_translations/'.$languageCode.'/lang_content.php';
-		if (file_exists($dictionary_path))
-			$EMAIL_TRANSLATIONS_DICTIONARY = include($dictionary_path);
-		else
-			$EMAIL_TRANSLATIONS_DICTIONARY = array();
+		global $LOCALE;
+        $LOCALE = $locale;
 
 		$emailPublicWebRoot = Tools::getShopDomain(true).__PS_BASE_URI__.'modules/ps_emailgenerator/templates/';
-		$emailLangIsRTL = in_array($languageCode,self::$_rtl_langs); // see header.php
+		$emailLangIsRTL = in_array($locale,self::$_rtl_langs); // see header.php
 		$emailDefaultFont = '';
-		if (array_key_exists($languageCode,self::$_lang_default_font))
-			$emailDefaultFont = (self::$_lang_default_font[$languageCode]).',';
+		if (array_key_exists($locale,self::$_lang_default_font))
+			$emailDefaultFont = (self::$_lang_default_font[$locale]).',';
 
 		if (dirname($template) !== 'templates/core')
 		{
@@ -260,9 +253,7 @@ class Ps_EmailGenerator extends Module
 		include dirname(__FILE__).'/'.$template;
 		$raw_html = ob_get_clean();
 
-
-
-		$output_basename = $this->getBaseOutputName($template, $languageCode);
+		$output_basename = $this->getBaseOutputName($template, $locale);
 		if ($output_basename === false)
 			throw new Exception('Template name is invalid.');
 
