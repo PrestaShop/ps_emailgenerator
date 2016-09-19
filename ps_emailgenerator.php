@@ -28,8 +28,8 @@ class Ps_EmailGenerator extends Module
 	public function __construct()
 	{
 		$this->name = 'ps_emailgenerator';
-		$this->version = '0.5';
-		$this->author = 'fmdj';
+		$this->version = '1.0';
+		$this->author = 'PrestaShop';
 		$this->bootstrap = true;
 
 		$this->displayName = 'Email Generator';
