@@ -4,34 +4,6 @@
 
 <div class="panel">
 	<h3>Email Templates</h3>
-	<div class="alert alert-info">
-		<p>Here are the email templates currently installed on your shop.</p>
-		<p>Unroll the tree and click on any e-mail to access its translations and more.</p>
-	</div>
-	<div class="tree">
-		<div class="node">
-			<p class='node-label'>Core</p>
-			{foreach from=$templates['core'] item=template}
-				<div class="leaf node">
-					{templateActions template=$template}
-				</div>
-			{/foreach}
-		</div>
-		<div class="node">
-			<p class='node-label'>Modules</p>
-			{foreach from=$templates['modules'] item=files key=module}
-				<div class="node">
-					<p class='node-label'>{$module}</p>
-					{foreach from=$files item=template}
-						<div class="leaf node">
-							{templateActions template=$template}
-						</div>
-					{/foreach}
-				</div>
-			{/foreach}
-		</div>
-	</div>
-	<BR/>
 	<div class='form-horizontal'>
 		<div class="form-group">
 			<div class="col-lg-3">

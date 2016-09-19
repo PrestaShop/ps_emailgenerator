@@ -77,64 +77,6 @@ class AdminEmailGeneratorController extends ModuleAdminController
 		$this->context->smarty->assign($params);
 	}
 
-	public function processDetails()
-	{
-		$error = '';
-		$template = Tools::getValue('template');
-		// Check passed path is authorized
-		if ($this->module->isValidTemplatePath($template))
-		{
-			$languageCode = $this->module->currentLanguageCode();
-
-			if ($subAction = Tools::getValue('subAction'))
-			{
-				$url = $this->context->link->getAdminLink('AdminEmailGenerator')
-				.'&template='.$template
-				.'&action=details'
-				.'&languageCode='.$languageCode;
-
-				if ($subAction === 'postTranslations')
-				{
-					$files = Tools::getValue('files');
-					$translations = Tools::getValue('translations');
-					$data = array();
-					foreach ($translations as $mt)
-					{
-						if (isset($files[$mt['file']]))
-						{
-							if (!isset($data[$files[$mt['file']]]))
-							{
-								$data[$files[$mt['file']]] = array();
-							}
-							$data[$files[$mt['file']]][$mt['message']] = $mt['translation'];
-						}
-					}
-					$ok = $this->module->writeTranslations($data);
-					if ($ok !== true)
-						$error = $ok;
-					if (!$error)
-					{
-						$this->module->generateEmail($template, $languageCode);
-					}
-				}
-
-				Tools::redirectAdmin($url);
-			}
-
-			$strings = $this->module->extractEmailStrings($template, $languageCode);
-
-			$this->context->smarty->assign(array(
-				'template' => $template,
-				'template_name' => $this->module->humanizeString(basename($template, '.php')),
-				'strings' => $strings,
-				'token' => Tools::getValue('token'),
-				'languages' => Language::getLanguages(),
-				'languageCode' => $languageCode,
-				'error' => $error
-			));
-		}
-	}
-
 	public function processPreview()
 	{
 		$template = Tools::getValue('template');
