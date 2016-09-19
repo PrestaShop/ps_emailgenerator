@@ -335,10 +335,11 @@ class Ps_EmailGenerator extends Module
 	public function getBaseOutputName($template, $languageCode)
 	{
 		$m = array();
+        $baseDir = _PS_MODULE_DIR_.'ps_emailgenerator/dumps/'.$languageCode.'/';
 		if (preg_match('#^templates/core/[^/]+\.php$#', $template))
-			return _PS_ROOT_DIR_.'/mails/'.$languageCode.'/'.basename($template, '.php');
+			return $baseDir.'core/'.basename($template, '.php');
 		else if (preg_match('#^templates/modules/([^/]+)/(?:[^/]+)\.php$#', $template, $m))
-			return _PS_MODULE_DIR_.$m[1].'/mails/'.$languageCode.'/'.basename($template, '.php');
+			return $baseDir.'modules/'.$m[1].'/'.basename($template, '.php');
 		else
 			return false;
 	}
