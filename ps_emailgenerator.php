@@ -291,6 +291,21 @@ class Ps_EmailGenerator extends Module
 		return array('html' => $html, 'text' => $text);
 	}
 
+	public function generateAllEmail()
+    {
+        $errors = array();
+
+        foreach ($this->getTemplatesToBuild() as $tplToBuild) {
+            try {
+                $this->generateEmail($tplToBuild['template'], $tplToBuild['languageCode']);
+            } catch (Exception $e) {
+                $errors[] = $e;
+            }
+        }
+
+        return empty($errors) ? true : $errors;
+    }
+
 	public static function unquote($string)
 	{
 		return preg_replace(array('/(?:^[\'"]|[\'"]$)/', '/\\\+([\'"])/'), array('', '\1'), $string);
