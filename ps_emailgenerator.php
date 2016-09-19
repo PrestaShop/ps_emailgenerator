@@ -353,4 +353,16 @@ class Ps_EmailGenerator extends Module
 			? $absPath
 			: false;
 	}
+
+	public function getLocalesToTranslateTo()
+    {
+        $path = _PS_ROOT_DIR_.'/app/Resources/translations/';
+        foreach (scandir($path) as $lc) {
+            if (!preg_match('/^(\.|default)/', $lc) && is_dir($path.$lc)) {
+                $languages[] = array('locale' => $lc);
+            }
+        }
+
+        return $languages;
+    }
 }

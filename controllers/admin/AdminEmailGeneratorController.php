@@ -38,24 +38,12 @@ class AdminEmailGeneratorController extends ModuleAdminController
 		$this->addJS(_PS_MODULE_DIR_.'ps_emailgenerator/js/tree.js');
 
 		$templates = Ps_EmailGenerator::listEmailTemplates();
-		$languages = array();
-
-		foreach (scandir(_PS_ROOT_DIR_.'/mails') as $lc)
-		{
-			if (!preg_match('/^\./', $lc) && is_dir(_PS_ROOT_DIR_.'/mails/'.$lc))
-			{
-				$languages[] = array('iso_code' => $lc);
-			}
-		}
 
 		$toBuild = array();
 
-		foreach (Language::getLanguages() as $lang)
+		foreach ($this->module->getLocalesToTranslateTo() as $lang)
 		{
-			if ($lang['iso_code'] === 'an')
-				continue;
-
-			foreach ($templates['core'] as $tpl)
+		    foreach ($templates['core'] as $tpl)
 				if(!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path'])))
 					$toBuild[] = array(
 						'languageCode' => $lang['locale'],
@@ -71,7 +59,6 @@ class AdminEmailGeneratorController extends ModuleAdminController
 
 		$params = array(
 			'templates' => $templates,
-			'languages' => $languages,
 			'toBuild' => Tools::jsonEncode($toBuild)
 		);
 		$this->context->smarty->assign($params);
