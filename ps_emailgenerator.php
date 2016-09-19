@@ -365,4 +365,28 @@ class Ps_EmailGenerator extends Module
 
         return $languages;
     }
+
+    public function getTemplatesToBuild()
+    {
+        $templates = Ps_EmailGenerator::listEmailTemplates();
+        $toBuild = array();
+
+        foreach ($this->getLocalesToTranslateTo() as $lang)
+        {
+            foreach ($templates['core'] as $tpl)
+                if(!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path'])))
+                    $toBuild[] = array(
+                        'languageCode' => $lang['locale'],
+                        'template' => $tpl['path']
+                    );
+            foreach ($templates['modules'] as $mod)
+                foreach ($mod as $tpl)
+                    $toBuild[] = array(
+                        'languageCode' => $lang['locale'],
+                        'template' => $tpl['path']
+                    );
+        }
+
+        return $toBuild;
+    }
 }

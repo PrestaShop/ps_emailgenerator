@@ -39,27 +39,9 @@ class AdminEmailGeneratorController extends ModuleAdminController
 
 		$templates = Ps_EmailGenerator::listEmailTemplates();
 
-		$toBuild = array();
-
-		foreach ($this->module->getLocalesToTranslateTo() as $lang)
-		{
-		    foreach ($templates['core'] as $tpl)
-				if(!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path'])))
-					$toBuild[] = array(
-						'languageCode' => $lang['locale'],
-						'template' => $tpl['path']
-					);
-			foreach ($templates['modules'] as $mod)
-				foreach ($mod as $tpl)
-					$toBuild[] = array(
-						'languageCode' => $lang['locale'],
-						'template' => $tpl['path']
-					);
-		}
-
 		$params = array(
 			'templates' => $templates,
-			'toBuild' => Tools::jsonEncode($toBuild)
+			'toBuild' => Tools::jsonEncode($this->module->getTemplatesToBuild())
 		);
 		$this->context->smarty->assign($params);
 	}
