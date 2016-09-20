@@ -15,7 +15,7 @@ function t($str)
 {
     global $LOCALE;
 
-    return Context::getContext()->getTranslator()->trans($str, array(), 'Emails', $LOCALE);
+    return Context::getContext()->getTranslator()->trans($str, array(), 'Emails.Body', $LOCALE);
 }
 
 class Ps_EmailGenerator extends Module
