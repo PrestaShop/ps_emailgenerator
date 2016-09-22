@@ -4,6 +4,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+use PrestaShopBundle\Translation\TranslatorComponent as Translator;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
+use Symfony\Component\Finder\Finder;
+
 require_once dirname(__FILE__).'/vendor/cssin/cssin.php';
 require_once dirname(__FILE__).'/vendor/cssin/vendor/simple_html_dom/simple_html_dom.php';
 require_once dirname(__FILE__).'/vendor/html_to_text/Html2Text.php';
@@ -15,7 +19,7 @@ function t($str)
 {
     global $LOCALE;
 
-    return Context::getContext()->getTranslator()->trans($str, array(), 'Emails.Body', $LOCALE);
+    return Ps_EmailGenerator::$translator->trans($str, array(), 'Emails.Body', $LOCALE);
 }
 
 class Ps_EmailGenerator extends Module
@@ -25,6 +29,8 @@ class Ps_EmailGenerator extends Module
         'fa' => 'Tahoma',
         'ar' => 'Tahoma'
     );
+
+    public static $translator = null;
 
     public function __construct()
     {
@@ -38,6 +44,8 @@ class Ps_EmailGenerator extends Module
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
         parent::__construct();
+
+        self::$translator = $this->getTranslator();
     }
 
     public function install()
@@ -289,7 +297,7 @@ class Ps_EmailGenerator extends Module
             try {
                 $this->generateEmail($tplToBuild['template'], $tplToBuild['languageCode']);
             } catch (Exception $e) {
-                $errors[] = $e;
+                $errors[] = $e->getMessage();
             }
         }
 
@@ -393,5 +401,31 @@ class Ps_EmailGenerator extends Module
         }
 
         return $toBuild;
+    }
+
+    public function getTranslator()
+    {
+        global $LOCALE;
+
+        $translator = new Translator($LOCALE, null, _PS_CACHE_DIR_, false);
+        $translator->addLoader('xlf', new XliffFileLoader);
+
+        $locations = array(_PS_ROOT_DIR_.'/app/Resources/translations');
+
+        $finder = Finder::create()
+            ->files()
+            ->filter(function (\SplFileInfo $file) {
+                return 2 === substr_count($file->getBasename(), '.') && preg_match('/\.\w+$/', $file->getBasename());
+            })
+            ->in($locations)
+        ;
+
+        foreach ($finder as $file) {
+            list($domain, $locale, $format) = explode('.', $file->getBasename(), 3);
+
+            $translator->addResource($format, $file, $locale, $domain);
+        }
+
+        return $translator;
     }
 }
