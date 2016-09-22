@@ -289,11 +289,11 @@ class Ps_EmailGenerator extends Module
         return array('html' => $html, 'text' => $text);
     }
 
-    public function generateAllEmail()
+    public function generateAllEmail($locale = null)
     {
         $errors = array();
 
-        foreach ($this->getTemplatesToBuild() as $tplToBuild) {
+        foreach ($this->getTemplatesToBuild($locale) as $tplToBuild) {
             try {
                 $this->generateEmail($tplToBuild['template'], $tplToBuild['languageCode']);
             } catch (Exception $e) {
@@ -364,24 +364,30 @@ class Ps_EmailGenerator extends Module
             : false;
     }
 
-    public function getLocalesToTranslateTo()
+    public function getLocalesToTranslateTo($locale)
     {
-        $path = _PS_ROOT_DIR_.'/app/Resources/translations/';
-        foreach (scandir($path) as $lc) {
-            if (!preg_match('/^(\.|default)/', $lc) && is_dir($path.$lc)) {
-                $languages[] = array('locale' => $lc);
+        $languages = array();
+
+        if (!is_null($locale)) {
+            $languages[] = array('locale' => $locale);
+        } else {
+            $path = _PS_ROOT_DIR_.'/app/Resources/translations/';
+            foreach (scandir($path) as $lc) {
+                if (!preg_match('/^(\.|default)/', $lc) && is_dir($path.$lc)) {
+                    $languages[] = array('locale' => $lc);
+                }
             }
         }
 
         return $languages;
     }
 
-    public function getTemplatesToBuild()
+    public function getTemplatesToBuild($locale)
     {
         $templates = Ps_EmailGenerator::listEmailTemplates();
         $toBuild = array();
 
-        foreach ($this->getLocalesToTranslateTo() as $lang) {
+        foreach ($this->getLocalesToTranslateTo($locale) as $lang) {
             foreach ($templates['core'] as $tpl) {
                 if (!preg_match('/^header/', basename($tpl['path'])) && !preg_match('/^footer/', basename($tpl['path']))) {
                     $toBuild[] = array(
