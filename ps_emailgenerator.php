@@ -240,7 +240,7 @@ class Ps_EmailGenerator extends Module
         }
 
         if (dirname($template) !== 'templates/core') {
-            set_include_path(dirname(__FILE__).'/templates/core:'.get_include_path());
+            set_include_path(dirname(__FILE__).'/templates/core'.PATH_SEPARATOR.get_include_path());
         }
 
         ob_start();
