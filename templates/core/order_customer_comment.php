@@ -3,7 +3,7 @@
 <tr>
 	<td align="center" class="titleblock">
 		<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
-			<span class="title"><?php echo t('Hi {firstname} {lastname},'); ?></span>
+			<span class="title"><?php echo t('Hi,'); ?></span>
 		</font>
 	</td>
 </tr>
