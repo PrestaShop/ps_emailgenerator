@@ -382,7 +382,11 @@ class Ps_EmailGenerator extends Module
         return $languages;
     }
 
-    public function getTemplatesToBuild($locale)
+    /**
+     * @param null $locale
+     * @return array
+     */
+    public function getTemplatesToBuild($locale = null)
     {
         $templates = Ps_EmailGenerator::listEmailTemplates();
         $toBuild = array();
