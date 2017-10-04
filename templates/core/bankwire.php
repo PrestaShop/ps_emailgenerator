@@ -19,7 +19,7 @@
 				<td>
 					<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
 						<p data-html-only="1" style="border-bottom:1px solid #D6D4D4;">
-							<?php echo t('Order {order_name}'); ?>&nbsp;-&nbsp;<?php echo t('Awaiting wire payment'); ?> 
+							<?php echo t('Order {order_name}'); ?>&nbsp;-&nbsp;<?php echo t('Awaiting wire payment'); ?>
 						</p>
 						<span>
 							<?php echo t('Your order with the reference <span><strong>{order_name}</strong></span> has been placed successfully and will be <strong>shipped as soon as we receive your payment</strong>.'); ?>
@@ -41,15 +41,16 @@
 				<td width="10">&nbsp;</td>
 				<td>
 					<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
-						<p style="border-bottom:1px solid #D6D4D4;"> 
+						<p style="border-bottom:1px solid #D6D4D4;">
 							<?php echo t('You have selected to pay by wire transfer.'); ?>
 						</p>
 						<span>
-							<?php echo t('Here are the bank details for your transfer:'); ?><br /> 
+							<?php echo t('Here are the bank details for your transfer:'); ?><br />
 							<span><strong><?php echo t('Amount:'); ?></strong></span> {total_paid}<br />
 							<span><strong><?php echo t('Account owner:'); ?></strong></span> {bankwire_owner}<br />
 							<span><strong><?php echo t('Account details:'); ?></strong></span> {bankwire_details}<br />
-							<span><strong><?php echo t('Bank address:'); ?></strong></span> {bankwire_address}
+							<span><strong><?php echo t('Bank address:'); ?></strong></span> {bankwire_address}<br />
+                            <?php echo t('Please specify your order reference in the bankwire description.'); ?>
 						</span>
 					</font>
 				</td>
