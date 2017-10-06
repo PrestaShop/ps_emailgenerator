@@ -231,12 +231,13 @@ class Ps_EmailGenerator extends Module
 
         global $LOCALE;
         $LOCALE = $locale;
+        $iso = preg_replace('/-.*/','',$locale);
 
         $emailPublicWebRoot = Tools::getShopDomain(true).__PS_BASE_URI__.'modules/ps_emailgenerator/templates/';
-        $emailLangIsRTL = in_array($locale, self::$_rtl_langs); // see header.php
+        $emailLangIsRTL = in_array($iso, self::$_rtl_langs); // see header.php
         $emailDefaultFont = '';
-        if (array_key_exists($locale, self::$_lang_default_font)) {
-            $emailDefaultFont = (self::$_lang_default_font[$locale]).',';
+        if (array_key_exists($iso, self::$_lang_default_font)) {
+            $emailDefaultFont = (self::$_lang_default_font[$iso]).',';
         }
 
         if (dirname($template) !== 'templates/core') {
