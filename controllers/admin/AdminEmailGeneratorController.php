@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property Ps_EmailGenerator $module
+ */
 class AdminEmailGeneratorController extends ModuleAdminController
 {
     public function __construct()
@@ -25,7 +28,7 @@ class AdminEmailGeneratorController extends ModuleAdminController
         $this->context->smarty->assign('emailgenerator', $this->context->link->getAdminLink('AdminEmailGenerator'));
     }
 
-    public function setMedia()
+    public function setMedia($isNewTheme = false)
     {
         $this->addCSS(_PS_MODULE_DIR_.'ps_emailgenerator/css/emailgenerator.css');
         parent::setMedia();
@@ -33,13 +36,15 @@ class AdminEmailGeneratorController extends ModuleAdminController
 
     public function processIndex()
     {
+        global $LOCALE;
+
         $this->addJS(_PS_MODULE_DIR_.'ps_emailgenerator/js/tree.js');
 
         $templates = Ps_EmailGenerator::listEmailTemplates();
 
         $params = array(
             'templates' => $templates,
-            'toBuild' => Tools::jsonEncode($this->module->getTemplatesToBuild())
+            'toBuild' => Tools::jsonEncode($this->module->getTemplatesToBuild($LOCALE))
         );
         $this->context->smarty->assign($params);
     }
