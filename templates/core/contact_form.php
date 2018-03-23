@@ -19,7 +19,6 @@
 					<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
 						<span>
 							<?php echo t('Your message has been sent successfully.'); ?><br /><br />
-							<span><strong><?php echo t('Message:'); ?></strong></span> {message}<br /><br />
 							<span><strong><?php echo t('Order ID:'); ?></strong></span> {order_name}<br />
 							<span><strong><?php echo t('Product:'); ?></strong></span> {product_name}<br />
 							<span><strong><?php echo t('Attached file:'); ?></strong></span> {attached_file}
